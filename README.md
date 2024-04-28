@@ -4,5 +4,5 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 - run *** npm run setup** to set up the project
 - run *** npm run start** to start project
-## Expanding the ESLint configuration
+
 
