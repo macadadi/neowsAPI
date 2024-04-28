@@ -2,14 +2,11 @@ import {
     Box,
     Button,
     HStack,
-    Skeleton,
-    Stack,
     Table,
     TableCaption,
     TableContainer,
     Tbody,
     Td,
-    Text,
     Th,
     Thead,
     Tr
@@ -26,6 +23,8 @@ import {
 } from '@tanstack/react-table';
 import React, { useEffect } from 'react';
 import { TError } from '../neows/data/types';
+import ErrorScreen from './ErrorScreen';
+import LoadingScrean from './LoadingScrean';
 
 
 type TableProps<T> = {
@@ -46,7 +45,6 @@ export default function NasaTable<T>(props: TableProps<T>) {
     );
     const columns = props.columns
     const setBarChartData = props.setBarChartData
-
     const table = useReactTable({
         data: tableData,
         columns,
@@ -67,7 +65,7 @@ export default function NasaTable<T>(props: TableProps<T>) {
     const rowTableData = table.getRowModel().rows
     useEffect(() => {
         setBarChartData(rowTableData.map(item => item?.original))
-    }, [rowTableData,setBarChartData])
+    }, [rowTableData,setBarChartData, tableData])
     return (
         <TableContainer
             borderBottomRadius='lg'
@@ -80,31 +78,17 @@ export default function NasaTable<T>(props: TableProps<T>) {
             {(() => {
                 switch (props?.status) {
                     case 'pending':
-                        return <Stack h={'100%'} w={'100%'} minW={{ base: '50vw', md: '80vw' }}>
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                            <Skeleton height="40px" startColor="gray.200" endColor="gray.400" />
-                        </Stack>;
+                        return <LoadingScrean />;
                     case 'error':
                         if (props?.error?.http_error ===
                             "BAD_REQUEST") {
-                            return (<Box pt={3} w={'78vw'} textAlign={'center'} height={'10vh'} >
-                                <Text color={'red'}>Request failed, the allowed Feed date limit is only 7 Days</Text>
-                            </Box>)
+                            return (<ErrorScreen message='Request failed, the allowed Feed date limit is only 7 Days' />)
                         }
                         if (props?.error?.isNetworkError) {
-                            return (<Box pt={3} w={'78vw'} textAlign={'center'} height={'10vh'} >
-                                <Text color={'red'}>Request failed, Network error </Text>
-                            </Box>)
+                            return (<ErrorScreen message='Request failed, Network error' />)
                         }
                         return (
-                            <Box pt={3} w={'78vw'} textAlign={'center'} height={'10vh'}>
-                                <Text>An Error occured</Text>
-                            </Box>
+                            <ErrorScreen message='An Error occured' />
                         );
                     case 'success':
                         return (

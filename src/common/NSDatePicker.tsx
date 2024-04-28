@@ -28,6 +28,7 @@ export const NSDatePicker = ({selectedDate, handleDateUpdate}: TDatePicker) => {
       <DatePicker 
       selected={selectedDate} 
       selectsEnd
+      dateFormat='dd/MM/yyyy'
       onChange={(date) => handleDateUpdate(date)}
       onSelect={(date) =>  handleDateUpdate(date)}
        customInput={<CustomInput />} />

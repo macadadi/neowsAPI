@@ -37,3 +37,10 @@ export type TError = {
     isNetworkError: boolean
     http_error: "BAD_REQUEST"
 }
+
+export type TUpdateCell ={
+    row :{
+        index : number
+        original: TAsteroidResponse
+    }
+ }

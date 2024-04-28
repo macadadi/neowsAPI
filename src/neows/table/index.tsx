@@ -1,9 +1,13 @@
 import { Text } from "@chakra-ui/react"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
+import { UpdateCell } from "../../common/UpdateCell"
 import { RoundOffNumber } from "../../utils"
 import { TAsteroidResponse } from "../data/types"
 
+
+
 const columnHelper = createColumnHelper<TAsteroidResponse>() 
+
 
 export const columns = [
   columnHelper.accessor('name', {
@@ -38,8 +42,10 @@ export const columns = [
     header: () => <Text>Velocity</Text>,
   }),
   columnHelper.accessor('updates', {
-    id: 'updates',
-    cell: ()=> <Text>-</Text>,
+      id: 'updates',
     header: () => <Text>Updates</Text>,
+      cell: ({  row: { index, original}, }) => UpdateCell({  row: { index, original}, }) 
   }),
 ] as ColumnDef<TAsteroidResponse>[]
+
+
