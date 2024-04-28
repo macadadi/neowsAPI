@@ -10,7 +10,7 @@ const axiosInstance: AxiosInstance = axios.create({
   axiosInstance.interceptors.request.use(config => {
     config.params = {
         ...config.params,
-        //We could move this to environment variable but i left it for testing
+        //We could move this to environment variable but I left it for testing
         api_key: 'U6j93PWB1i8OJjZVfJob4IGL2emtdWq3NTqfqH5b'
     };
     return config
